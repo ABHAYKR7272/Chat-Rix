@@ -449,7 +449,7 @@ html, body {
 
 /* Video Panel */
 .video-panel {
-  flex: 1.2; display: flex; flex-direction: column;
+  flex: 1.2; display: flex; flex-direction: row;  /* ← CHANGED: column → row (side by side) */
   gap: 4px; padding: 8px;
   background: #010608;
   position: relative; min-width: 0;
@@ -460,6 +460,7 @@ html, body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   min-height: 0;
+  aspect-ratio: 16/9;    /* ← ADDED: perfect 16:9 ratio */
 }
 .video-box video {
   width: 100%; height: 100%;
@@ -703,7 +704,7 @@ html, body {
 
   .video-panel {
     flex: none;
-    height: 45vh; flex-direction: row;
+    height: 40vh; flex-direction: row;
   }
 
   .msg-panel {
