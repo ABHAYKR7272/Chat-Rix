@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Chat-Rix — Talk to Strangers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ═══ SCANLINE OVERLAY ══════════════════════════════ -->
+<div class="scanlines"></div>
+<div class="noise-overlay"></div>
+
+<!-- ═══ PARTICLE CANVAS ══════════════════════════════ -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- ═══ SCREEN: LANDING ══════════════════════════════ -->
+<div id="screen-landing" class="screen active">
+  <div class="landing-container">
+    <div class="logo-wrap">
+      <div class="logo-glitch" data-text="CHAT-RIX">CHAT-RIX</div>
+      <div class="logo-sub">// CONNECT WITH THE UNKNOWN //</div>
+      <div class="rgb-bar"></div>
+    </div>
+
+    <div class="online-badge">
+      <span class="pulse-dot"></span>
+      <span id="online-count-landing">0</span> USERS ONLINE
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">INITIALIZE IDENTITY</label>
+      <div class="input-wrap">
+        <span class="input-icon">▶</span>
+        <input
+          type="text"
+          id="name-input"
+          class="cyber-input"
+          placeholder="Enter your callsign..."
+          maxlength="24"
+          autocomplete="off"
+        />
+        <div class="input-border-anim"></div>
+      </div>
+      <div class="input-hint">Leave blank to stay anonymous</div>
+    </div>
+
+    <button class="btn-launch" id="btn-start">
+      <span class="btn-text">LAUNCH INTO THE VOID</span>
+      <span class="btn-glow"></span>
+    </button>
+
+    <div class="rules-panel">
+      <div class="rules-title">// PROTOCOL //</div>
+      <div class="rules-grid">
+        <div class="rule-item"><span class="rule-icon">◈</span> Be 18+ to enter</div>
+        <div class="rule-item"><span class="rule-icon">◈</span> No hate or harassment</div>
+        <div class="rule-item"><span class="rule-icon">◈</span> Real webcam only</div>
+        <div class="rule-item"><span class="rule-icon">◈</span> Respect the void</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: WAITING ══════════════════════════════ -->
+<div id="screen-waiting" class="screen">
+  <div class="waiting-container">
+    <div class="wait-logo">CHAT-RIX</div>
+    <div class="radar-wrap">
+      <div class="radar">
+        <div class="radar-sweep"></div>
+        <div class="radar-ring r1"></div>
+        <div class="radar-ring r2"></div>
+        <div class="radar-ring r3"></div>
+        <div class="radar-dot"></div>
+      </div>
+    </div>
+    <div class="wait-text">SCANNING FOR STRANGERS</div>
+    <div class="wait-dots">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="wait-count"><span id="online-count-wait">0</span> users in the matrix</div>
+    <button class="btn-cancel" id="btn-cancel-wait">ABORT MISSION</button>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: CHAT ══════════════════════════════════ -->
+<div id="screen-chat" class="screen">
+  <div class="chat-layout">
+
+    <!-- TOP BAR -->
+    <header class="chat-header">
+      <div class="header-logo">CHAT-RIX</div>
+      <div class="header-info">
+        <div class="partner-tag">
+          <span class="live-dot"></span>
+          CONNECTED: <span id="partner-name-display">STRANGER</span>
+        </div>
+        <div class="online-tag">
+          <span id="online-count-chat">0</span> ONLINE
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN AREA -->
+    <div class="chat-main">
+
+      <!-- VIDEO PANEL -->
+      <div class="video-panel">
+        <div class="video-box remote-box">
+          <video id="remoteVideo" autoplay playsinline></video>
+          <div class="video-label remote-label">STRANGER</div>
+          <div class="video-overlay-text" id="remote-status">Connecting...</div>
+          <div class="video-corner tl"></div>
+          <div class="video-corner tr"></div>
+          <div class="video-corner bl"></div>
+          <div class="video-corner br"></div>
+        </div>
+
+        <div class="video-box local-box">
+          <video id="localVideo" autoplay playsinline muted></video>
+          <div class="video-label local-label">YOU</div>
+          <div class="video-corner tl"></div>
+          <div class="video-corner tr"></div>
+          <div class="video-corner bl"></div>
+          <div class="video-corner br"></div>
+        </div>
+      </div>
+
+      <!-- CHAT PANEL -->
+      <div class="msg-panel">
+        <div class="msg-header">
+          <span>// TRANSMISSION LOG //</span>
+          <span class="msg-blink">●</span>
+        </div>
+        <div class="messages-container" id="messages-container">
+          <div class="sys-msg">Connection established. Type to transmit.</div>
+        </div>
+        <div class="msg-input-area">
+          <input
+            type="text"
+            id="chat-input"
+            class="msg-input"
+            placeholder="Transmit message..."
+            maxlength="500"
+            autocomplete="off"
+          />
+          <button class="btn-send" id="btn-send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLS BAR -->
+    <div class="controls-bar">
+      <button class="ctrl-btn" id="btn-mute" title="Mute/Unmute">
+        <svg class="icon-unmuted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+        <svg class="icon-muted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+          <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
+          <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+        <span>MIC</span>
+      </button>
+
+      <button class="ctrl-btn" id="btn-video-toggle" title="Camera On/Off">
+        <svg class="icon-cam-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="23 7 16 12 23 17 23 7"></polygon>
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+        </svg>
+        <svg class="icon-cam-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+          <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        </svg>
+        <span>CAM</span>
+      </button>
+
+      <button class="ctrl-btn btn-skip-main" id="btn-skip" title="Skip to next">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 4 15 12 5 20 5 4"></polygon>
+          <line x1="19" y1="5" x2="19" y2="19"></line>
+        </svg>
+        <span>SKIP</span>
+      </button>
+
+      <button class="ctrl-btn btn-end" id="btn-end" title="End session">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.42 19.42 0 0 1 4.43 9.88a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.34 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.3 8.9"></path>
+          <line x1="23" y1="1" x2="1" y2="23"></line>
+        </svg>
+        <span>DISCONNECT</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ TOAST NOTIFICATION ══════════════════════════ -->
+<div id="toast" class="toast"></div>
+
+<!-- ═══ MODAL: PARTNER LEFT ══════════════════════════ -->
+<div id="modal-left" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <div class="modal-title">CONNECTION SEVERED</div>
+    <div class="modal-text">The stranger has left the matrix.</div>
+    <div class="modal-actions">
+      <button class="btn-modal-primary" id="modal-next">FIND NEW STRANGER</button>
+      <button class="btn-modal-secondary" id="modal-home">RETURN TO BASE</button>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
